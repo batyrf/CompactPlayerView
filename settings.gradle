@@ -1,0 +1,3 @@
+rootProject.name='CompactPlayerViewSample'
+include ':app'
+include ':compactplayerview'
