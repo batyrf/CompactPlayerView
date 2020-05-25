@@ -11,13 +11,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         rv.setItems(
             listOf(
-                "http://217.174.225.146/legacyhls/ch000.m3u8",
-                "http://217.174.225.146/legacyhls/ch001.m3u8",
-                "http://217.174.225.146/legacyhls/ch002.m3u8",
-                "http://217.174.225.146/legacyhls/ch003.m3u8",
-                "http://217.174.225.146/legacyhls/ch004.m3u8",
-                "http://217.174.225.146/legacyhls/ch005.m3u8",
-                "http://217.174.225.146/legacyhls/ch006.m3u8"
+                listOf(
+                    "http://gormless.dx.am/videos/coverr-lighting-candle--1581349807482.mp4",
+                    R.raw.islands,
+                    "/storage/emulated/0/download/test.mp4"),
+                "http://gormless.dx.am/videos/coverr-lighting-candle--1581349807482.mp4",
+                R.raw.islands,
+                "/storage/emulated/0/download/test.mp4",
+                "http://217.174.225.146/legacyhls/ch003.m3u8"
             )
         )
     }

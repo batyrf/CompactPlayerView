@@ -19,14 +19,14 @@ class VideosRecyclerView : RecyclerView {
         layoutManager = LinearLayoutManager(context)
     }
 
-    fun setItems(items: List<String>) {
+    fun setItems(items: List<Any>) {
         rvAdapter.items = items
     }
 }
 
 class VideosAdapter: RecyclerView.Adapter<ViewHolder>() {
 
-    var items: List<String> = listOf()
+    var items: List<Any> = listOf()
     set(value) {
         field = value
         notifyDataSetChanged()
@@ -42,8 +42,8 @@ class VideosAdapter: RecyclerView.Adapter<ViewHolder>() {
 
 class ViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.rv_item_layout, parent, false)) {
 
-    fun bind(url: String) {
-        itemView.player.play(url)
+    fun bind(src: Any) {
+        itemView.player.play(src)
     }
 
     companion object {

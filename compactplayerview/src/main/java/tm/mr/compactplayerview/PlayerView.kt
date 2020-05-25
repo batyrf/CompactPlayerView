@@ -7,17 +7,20 @@ import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import tm.mr.compactplayerview.extensions.toMediaSource
+import tm.mr.compactplayerview.extensions.toMediaSourceOrNull
 
 class PlayerView : PlayerView {
 
     var exoPlayer: SimpleExoPlayer
+    lateinit var mediaSource: MediaSource
+    private val userAgent = Util.getUserAgent(context, "CompactPlayerView")
+    private val dataSourceFactory = DefaultDataSourceFactory(context, userAgent)
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
@@ -33,19 +36,36 @@ class PlayerView : PlayerView {
         player = exoPlayer
     }
 
-    fun play(url: String) {
-        val userAgent = Util.getUserAgent(context, "CompactPlayerView")
-//        val mediaSource = ExtractorMediaSource
-//            .Factory(DefaultDataSourceFactory(context, userAgent))
-//            .setExtractorsFactory(DefaultExtractorsFactory())
-//            .createMediaSource(Uri.parse(url))
-
-        val mediaSource = HlsMediaSource.Factory(DefaultDataSourceFactory(context, userAgent))
-            .createMediaSource(Uri.parse(url))
-
+    fun play() {
         exoPlayer.volume = 0f
         exoPlayer.prepare(mediaSource)
         exoPlayer.playWhenReady = true
+    }
+
+    @Throws(Exception::class)
+    fun play(src: Any) {
+        when (src) {
+            is List<*> -> {
+                mediaSource = (src as List<Any>).toMediaSource(context, dataSourceFactory)
+                play()
+            }
+            is Int -> {
+                src.toMediaSourceOrNull(context, dataSourceFactory)
+                    ?.let {
+                        mediaSource = it
+                    }
+                play()
+            }
+            is Uri -> {
+                mediaSource = src.toMediaSource(dataSourceFactory)
+                play()
+            }
+            is String -> {
+                mediaSource = Uri.parse(src).toMediaSource(dataSourceFactory)
+                play()
+            }
+            else -> throw Exception("Unknown source: $src")
+        }
     }
 
     fun release() {
