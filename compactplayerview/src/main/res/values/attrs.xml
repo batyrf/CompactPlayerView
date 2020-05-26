@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CompactPlayerView">
-        <attr name="volume" format="float"/>
+        <attr name="volume" format="float" />
+        <attr name="src" format="string" />
     </declare-styleable>
 </resources>

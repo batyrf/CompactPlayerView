@@ -9,7 +9,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        player.play("http://gormless.dx.am/videos/mama.mp4")
 
         player.onVolumeChangeListener = {
             tvVolume.text = it.toString()

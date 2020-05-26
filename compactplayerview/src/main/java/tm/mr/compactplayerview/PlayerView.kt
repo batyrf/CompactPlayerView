@@ -3,6 +3,7 @@ package tm.mr.compactplayerview
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -12,13 +13,14 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import tm.mr.compactplayerview.extensions.getRawIdOrNull
 import tm.mr.compactplayerview.extensions.toMediaSource
 import tm.mr.compactplayerview.extensions.toMediaSourceOrNull
 
 class PlayerView : PlayerView {
 
     var exoPlayer: SimpleExoPlayer
-    lateinit var mediaSource: MediaSource
+    private var mediaSource: MediaSource? = null
 
     var onVolumeChangeListener: ((Float) -> Unit)? = null
     var volume: Float = 0f
@@ -51,6 +53,13 @@ class PlayerView : PlayerView {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.CompactPlayerView, 0, 0)
         try {
             volume = ta.getFloat(R.styleable.CompactPlayerView_volume, 0f)
+            ta.getString(R.styleable.CompactPlayerView_src)
+                ?.split(",")
+                ?.map {
+                    it.getRawIdOrNull(context) ?: it.trim()
+                }?.let {
+                    set(it)
+                }
         } finally {
             ta.recycle()
         }
