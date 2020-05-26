@@ -19,6 +19,16 @@ class PlayerView : PlayerView {
 
     var exoPlayer: SimpleExoPlayer
     lateinit var mediaSource: MediaSource
+
+    var onVolumeChangeListener: ((Float) -> Unit)? = null
+    var volume: Float = 0f
+        get() = exoPlayer.volume
+        set(value) {
+            field = value
+            exoPlayer.volume = field
+            onVolumeChangeListener?.invoke(exoPlayer.volume)
+        }
+
     private val userAgent = Util.getUserAgent(context, "CompactPlayerView")
     private val dataSourceFactory = DefaultDataSourceFactory(context, userAgent)
     constructor(context: Context?) : this(context, null)
@@ -34,38 +44,38 @@ class PlayerView : PlayerView {
             context, renderersFactory, trackSelector, loadControl
         )
         player = exoPlayer
+        initAttrs(attrs)
+    }
+
+    private fun initAttrs(attrs: AttributeSet?) {
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.CompactPlayerView, 0, 0)
+        try {
+            volume = ta.getFloat(R.styleable.CompactPlayerView_volume, 0f)
+        } finally {
+            ta.recycle()
+        }
+    }
+
+    @Throws(Exception::class)
+    fun set(src: Any) {
+        when (src) {
+            is List<*> -> mediaSource = (src as List<Any>).toMediaSource(context, dataSourceFactory)
+            is Int -> src.toMediaSourceOrNull(context, dataSourceFactory)?.let { mediaSource = it }
+            is Uri -> mediaSource = src.toMediaSource(dataSourceFactory)
+            is String -> mediaSource = Uri.parse(src).toMediaSource(dataSourceFactory)
+            else -> throw Exception("Unknown source: $src")
+        }
+        exoPlayer.prepare(mediaSource)
     }
 
     fun play() {
-        exoPlayer.volume = 0f
-        exoPlayer.prepare(mediaSource)
         exoPlayer.playWhenReady = true
     }
 
     @Throws(Exception::class)
     fun play(src: Any) {
-        when (src) {
-            is List<*> -> {
-                mediaSource = (src as List<Any>).toMediaSource(context, dataSourceFactory)
-                play()
-            }
-            is Int -> {
-                src.toMediaSourceOrNull(context, dataSourceFactory)
-                    ?.let {
-                        mediaSource = it
-                    }
-                play()
-            }
-            is Uri -> {
-                mediaSource = src.toMediaSource(dataSourceFactory)
-                play()
-            }
-            is String -> {
-                mediaSource = Uri.parse(src).toMediaSource(dataSourceFactory)
-                play()
-            }
-            else -> throw Exception("Unknown source: $src")
-        }
+        set(src)
+        play()
     }
 
     fun release() {

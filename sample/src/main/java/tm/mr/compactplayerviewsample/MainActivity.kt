@@ -9,18 +9,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        rv.setItems(
-            listOf(
-                listOf(
-                    "http://gormless.dx.am/videos/coverr-lighting-candle--1581349807482.mp4",
-                    R.raw.islands,
-                    "/storage/emulated/0/download/test.mp4"),
-                "http://gormless.dx.am/videos/coverr-lighting-candle--1581349807482.mp4",
-                R.raw.islands,
-                "/storage/emulated/0/download/test.mp4",
-                "http://217.174.225.146/legacyhls/ch003.m3u8"
-            )
-        )
+        player.play("http://gormless.dx.am/videos/mama.mp4")
+
+        player.onVolumeChangeListener = {
+            tvVolume.text = it.toString()
+        }
+
+        volDown.setOnClickListener {
+            player.volume -= 0.1f
+        }
+
+        volUp.setOnClickListener {
+            player.volume += 0.1f
+        }
     }
 
     override fun onResume() {
