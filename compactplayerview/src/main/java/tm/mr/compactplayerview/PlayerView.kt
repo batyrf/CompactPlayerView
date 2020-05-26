@@ -3,11 +3,7 @@ package tm.mr.compactplayerview
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
-import android.util.Log
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
@@ -60,6 +56,8 @@ class PlayerView : PlayerView {
                 }?.let {
                     set(it)
                 }
+            if (ta.getBoolean(R.styleable.CompactPlayerView_autoplay, false))
+                play()
         } finally {
             ta.recycle()
         }
