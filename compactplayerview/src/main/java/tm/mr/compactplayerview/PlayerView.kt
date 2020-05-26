@@ -58,6 +58,8 @@ class PlayerView : PlayerView {
                 }
             if (ta.getBoolean(R.styleable.CompactPlayerView_autoplay, false))
                 play()
+
+            exoPlayer.repeatMode = ta.getInt(R.styleable.CompactPlayerView_repeat_mode, 0)
         } finally {
             ta.recycle()
         }

@@ -4,5 +4,10 @@
         <attr name="volume" format="float" />
         <attr name="src" format="string" />
         <attr name="autoplay" format="boolean" />
+        <attr name="repeat_mode" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="one" value="1"/>
+            <enum name="all" value="2"/>
+        </attr>
     </declare-styleable>
 </resources>

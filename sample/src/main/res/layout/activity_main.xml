@@ -14,6 +14,7 @@
         app:src="http://gormless.dx.am/videos/mama.mp4, R.raw.islands, /storage/emulated/0/download/test.mp4"
         app:volume="0.5"
         app:autoplay="true"
+        app:repeat_mode="all"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintTop_toTopOf="parent" />
 
