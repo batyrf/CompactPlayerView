@@ -2,7 +2,16 @@
 Helper for removing exoplayer set up boilerplates and setting attributes on xml
 
 ```html
-<tm.mr.compactplayerview.PlayerView />
+<tm.mr.compactplayerview.PlayerView
+    android:id="@+id/player"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:src="http://gormless.dx.am/videos/mama.mp4, R.raw.islands, /storage/emulated/0/download/test.mp4"
+    app:volume="0.5"
+    app:autoplay="true"
+    app:repeat_mode="all"
+    app:layout_constraintDimensionRatio="16:9"
+    app:layout_constraintTop_toTopOf="parent" />
 ```
 
 
