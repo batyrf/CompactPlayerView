@@ -54,7 +54,7 @@ Helper for removing exoplayer set up boilerplates and setting attributes on xml
    }
    ...
    dependencies {
-       implementation 'com.github.batyrf:CompactPlayerView:latest-release'
+	   implementation 'com.github.batyrf:CompactPlayerView:1.0.0'
        implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
        implementation 'com.google.android.exoplayer:exoplayer-core:2.9.6'
        implementation 'com.google.android.exoplayer:exoplayer-dash:2.9.6'
